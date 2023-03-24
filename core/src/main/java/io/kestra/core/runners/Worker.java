@@ -110,7 +110,6 @@ public class Worker implements Runnable, AutoCloseable {
     public void run() {
         this.executionKilledQueue.receive(executionKilled -> {
             if (executionKilled != null && executionKilled.isLeft()) {
-                // @FIXME: the hashset will never expire killed execution
                 killedExecution.add(executionKilled.getLeft().getExecutionId());
 
                 synchronized (this) {
@@ -283,7 +282,7 @@ public class Worker implements Runnable, AutoCloseable {
 
             this.logTerminated(workerTask);
 
-            //FIXME should we remove it from the killedExecution set ?
+            killedExecution.remove(workerTask);
 
             return workerTaskResult;
         }
