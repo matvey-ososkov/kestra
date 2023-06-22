@@ -39,6 +39,9 @@ import static io.kestra.core.utils.Rethrow.throwFunction;
 
 @NoArgsConstructor
 public class RunContext {
+    // List of env variables that should be redacted from the execution run context variables to avoid information disclosure.
+    private static final List<String> REDACTED_ENV_VAR = List.of("KESTRA_PLUGINS_PATH", "KESTRA_CONFIGURATION_PATH", "KESTRA_CONFIGURATION");
+
     // Injected
     private ApplicationContext applicationContext;
     private VariableRenderer variableRenderer;
@@ -292,7 +295,7 @@ public class RunContext {
         return result
             .entrySet()
             .stream()
-            .filter(e -> e.getKey().startsWith(this.envPrefix))
+            .filter(e -> !REDACTED_ENV_VAR.contains(e.getKey()) && e.getKey().startsWith(this.envPrefix))
             .map(e -> new AbstractMap.SimpleEntry<>(
                 e.getKey().substring(this.envPrefix.length()).toLowerCase(),
                 e.getValue()
