@@ -46,7 +46,7 @@ class LocalStorageTest {
     void get() throws Exception {
         String prefix = IdUtils.create();
 
-        URL resource = LocalStorageTest.class.getClassLoader().getResource("application.yml");
+        URL resource = LocalStorageTest.class.getClassLoader().getResource("application-test.yml");
         String content = CharStreams.toString(new InputStreamReader(new FileInputStream(Objects.requireNonNull(resource).getFile())));
 
         this.putFile(resource, "/" + prefix + "/storage/get.yml");
@@ -75,7 +75,7 @@ class LocalStorageTest {
     void put() throws Exception {
         String prefix = IdUtils.create();
 
-        URL resource = LocalStorageTest.class.getClassLoader().getResource("application.yml");
+        URL resource = LocalStorageTest.class.getClassLoader().getResource("application-test.yml");
         URI put = this.putFile(resource, "/" + prefix + "/storage/put.yml");
         InputStream get = storageInterface.get(null, new URI("/" + prefix + "/storage/put.yml"));
 
@@ -106,7 +106,7 @@ class LocalStorageTest {
     void deleteByPrefix() throws Exception {
         String prefix = IdUtils.create();
 
-        URL resource = LocalStorageTest.class.getClassLoader().getResource("application.yml");
+        URL resource = LocalStorageTest.class.getClassLoader().getResource("application-test.yml");
 
         List<String> path = Arrays.asList(
             "/" + prefix + "/storage/root.yml",
